@@ -16,20 +16,30 @@ public class GrammarExercise {
         
         String[] string1 = firstWordList.split(",");
         String[] string2 = secondWordList.split(",");
-        List<String> firstWordLists = new ArrayList<String>();
-        List<String> secondWordLists = new ArrayList<String>();
-        Corllections.addAll(firstWordLists,string1);
-        Corllections.addAll(SecondWordLists,string2);
-
-        long count1 = firstWordLists.stream().forEach(str -> str.matches("[a-zA-Z]+")).count();
-        long count2 = secondWordLists.stream().forEach(str -> str.matches("[a-zA-Z]+")).count();
-        if(count1 < firstWordLists.size() || count2 < secondWordLists.size()) throw new error("input not valid");
-        
-        Corllections.sort(finalWordLists);
-        Corllections.sort(secondWordLists);
         List<String> finalWordLists = new ArrayList<String>();
-        Stream<String> finalStream = Stream.concat(firstWordLists.stream(),secondWordLists.stream());
-        finalStream.distinct().forEach(str->System.out.print(str));
+        Corllections.addAll(finalWordLists,string1);
+        Corllections.addAll(finalWordLists,string2);
+  
+
+        long count1 = finalWordLists.stream().forEach(str -> str.matches("[a-zA-Z]+")).count();
+        
+        if(count1 < finalWordLists.size() ) throw new error("input not valid");
+        
+        finalWordLists.stream().forEach(str -> str.toUpperCase());
+        Corllections.sort(finalWordLists);
+
+        Set<String> set = new HashSet<>(finalWordLists);
+ 
+        //获得list与set的差集
+        Collection rs = CollectionUtils.disjunction(finalWordLists,set);
+        //将collection转换为list
+        List<String> results = new ArrayList<>(rs);
+
+        List<String> result = results.stream().forEach(str->str.replace(""," ").trim();)
+
+        
+        // Stream<String> finalStream = Stream.concat(firstWordLists.stream(),secondWordLists.stream());
+        // finalStream.toUpperCase().forEach(str->System.out.print(str));
 
         return null;
     }
