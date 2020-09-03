@@ -1,10 +1,12 @@
-import org.junit.platform.commons.util.CollectionUtils;
-
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class GrammarExercise {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         //需要从命令行读入
         String firstWordList = "";
         String secondWordList = "";
@@ -14,38 +16,28 @@ public class GrammarExercise {
 
     }
 
-    public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) throws Exception {
+    public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
         //在这编写实现代码
-        //Scanner sc = new Scanner(System.in);
-        //firstWordList = sc.next();
-        //secondWordList = sc.next();
+        if (firstWordList.contains(",,") || !firstWordList.matches("[a-zA-Z,]+") || !secondWordList.matches("[a-zA-Z,]+")) {
+            throw new RuntimeException("input not valid");
+        }
         String[] string1 = firstWordList.split(",");
         String[] string2 = secondWordList.split(",");
         List<String> list1 = new ArrayList<String>();
         List<String> list2 = new ArrayList<String>();
-        List<String> finalWordLists = new ArrayList<String>();
-        Collections.addAll(finalWordLists,string1);
-        Collections.addAll(finalWordLists,string2);
-        Collections.addAll(list1,string1);
-        Collections.addAll(list2,string2);
-  
-        //int count = 0;
-        long count1 = finalWordLists.stream().filter(str -> str.matches("[a-zA-Z]+")).count() ;
 
-        if(count1 < finalWordLists.size() ) throw new Exception("input not valid");
-        
+        Collections.addAll(list1, string1);
+        Collections.addAll(list2, string2);
+
+
         //finalWordLists.stream().forEach(str -> str.toUpperCase());
-        list1.stream().forEach(str -> str.toUpperCase());
-        list2.stream().forEach(str -> str.toUpperCase());
+        List<String> list3 = list1.stream().map(str -> str.toUpperCase()).collect(Collectors.toList());
+        List<String> list4 = list2.stream().map(str -> str.toUpperCase()).collect(Collectors.toList());
 
-        list1.retainAll(list2);
+        list3.retainAll(list4);
+        //list1.stream().distinct();
         Collections.sort(list1);
-        list1.stream().forEach(str->str.replace(""," ").trim());
-
-
-        // Stream<String> finalStream = Stream.concat(firstWordLists.stream(),secondWordLists.stream());
-        // finalStream.toUpperCase().forEach(str->System.out.print(str));
-
-        return null;
+        List<String> result = list3.stream().map(string -> string.replace("", " ").trim()).distinct().collect(Collectors.toList());
+        return result;
     }
 }
